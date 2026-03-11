@@ -4,6 +4,12 @@ import { useState, useMemo } from 'react';
 import { useAppSelector } from '@/store/hooks';
 import { getDownloadUrl } from '@/lib/api';
 
+const FLAG_URLS: Record<string, string> = {
+  USD: 'https://flagcdn.com/w40/us.png',
+  IRR: 'https://flagcdn.com/w40/ir.png',
+  INR: 'https://flagcdn.com/w40/in.png',
+};
+
 interface TransactionsTableProps {
   receiverName: string;
 }
@@ -18,7 +24,6 @@ export default function TransactionsTable({
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearch, setShowSearch] = useState(false);
 
-  // Client-side search filtering by "To" and "Status"
   const filtered = useMemo(() => {
     if (!searchQuery.trim()) return transactions;
     const q = searchQuery.toLowerCase();
@@ -42,23 +47,27 @@ export default function TransactionsTable({
       minute: '2-digit',
       hour12: true,
     });
-    return { dateFormatted, timeFormatted };
+    return { dateFormatted: dateFormatted + ',', timeFormatted };
   };
 
   const formatAmount = (amount: number) => {
-    const symbols: Record<string, string> = {
-      USD: '$',
-      IRR: '﷼',
-      INR: '₹',
-    };
-    const symbol = symbols[selectedCurrency] || '';
-    return `${symbol} ${amount.toLocaleString()}`;
+    const formatted = amount.toLocaleString();
+    switch (selectedCurrency) {
+      case 'USD':
+        return `${formatted}$`;
+      case 'IRR':
+        return `${formatted} ﷼`;
+      case 'INR':
+        return `${formatted} ₹`;
+      default:
+        return formatted;
+    }
   };
 
   return (
-    <div>
+    <div className="flex flex-col min-h-0">
       {/* Section Header */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-6 shrink-0">
         <h3 className="text-lg font-bold text-gray-900">
           Transactions History With {receiverName.split(' ')[0]}
         </h3>
@@ -78,7 +87,7 @@ export default function TransactionsTable({
               setShowSearch(!showSearch);
               if (showSearch) setSearchQuery('');
             }}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="w-9 h-9 flex items-center justify-center hover:bg-gray-100 rounded-full transition-colors"
           >
             <svg
               className="w-5 h-5 text-gray-500"
@@ -94,9 +103,9 @@ export default function TransactionsTable({
               />
             </svg>
           </button>
-          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+          <button className="w-9 h-9 flex items-center justify-center hover:bg-gray-100 rounded-full border border-gray-200 transition-colors">
             <svg
-              className="w-5 h-5 text-gray-500"
+              className="w-4 h-4 text-gray-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -118,18 +127,28 @@ export default function TransactionsTable({
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600" />
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left text-gray-500 border-b border-gray-200">
-                <th className="py-3 pr-2 font-medium">#</th>
+        <div className="overflow-y-auto overflow-x-auto min-h-0 max-h-[220px]">
+          <table className="w-full text-sm table-fixed">
+            <colgroup>
+              <col className="w-[3%]" />
+              <col className="w-[15%]" />
+              <col className="w-[12%]" />
+              <col className="w-[15%]" />
+              <col className="w-[17%]" />
+              <col className="w-[13%]" />
+              <col className="w-[10%]" />
+              <col className="w-[15%]" />
+            </colgroup>
+            <thead className="sticky top-0 bg-white">
+              <tr className="text-center text-gray-400 text-xs border-b border-gray-200">
+                <th className="py-3 px-2 font-medium">#</th>
                 <th className="py-3 px-2 font-medium">Reference number</th>
                 <th className="py-3 px-2 font-medium">To</th>
-                <th className="py-3 px-2 font-medium">Date & Time</th>
+                <th className="py-3 px-2 font-medium">Date &amp; Time</th>
                 <th className="py-3 px-2 font-medium">Paid with</th>
                 <th className="py-3 px-2 font-medium">Amount</th>
                 <th className="py-3 px-2 font-medium">Status</th>
-                <th className="py-3 pl-2 font-medium">Actions</th>
+                <th className="py-3 px-2 font-medium">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -140,42 +159,51 @@ export default function TransactionsTable({
                 return (
                   <tr
                     key={tx.id}
-                    className="border-b border-gray-100 hover:bg-gray-50"
+                    className={`border-b border-gray-100 text-center ${
+                      index % 2 === 0 ? 'bg-gray-100' : 'bg-white'
+                    }`}
                   >
-                    <td className="py-4 pr-2 text-gray-500">{index + 1}</td>
-                    <td className="py-4 px-2 text-gray-700">
+                    <td className="py-3 px-2 text-gray-400">{index + 1}</td>
+                    <td className="py-3 px-2 text-gray-700">
                       {tx.reference_number}
                     </td>
-                    <td className="py-4 px-2 text-gray-700">{tx.to}</td>
-                    <td className="py-4 px-2 text-gray-700">
+                    <td className="py-3 px-2 text-gray-700">{tx.to}</td>
+                    <td className="py-3 px-2 text-gray-700">
                       <div>{dateFormatted}</div>
-                      <div className="text-gray-400 text-xs">
-                        {timeFormatted}
+                      <div>{timeFormatted}</div>
+                    </td>
+                    <td className="py-3 px-2 text-gray-700">{tx.paid_with}</td>
+                    <td className="py-3 px-2 font-medium text-gray-900">
+                      <div className="flex items-center justify-center gap-1.5">
+                        {FLAG_URLS[selectedCurrency] && (
+                          <img
+                            src={FLAG_URLS[selectedCurrency]}
+                            alt={selectedCurrency}
+                            className="w-5 h-5 object-cover rounded-full shrink-0"
+                          />
+                        )}
+                        <span>{formatAmount(tx.amount)}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-2 text-gray-700">{tx.paid_with}</td>
-                    <td className="py-4 px-2 font-medium text-gray-900">
-                      {formatAmount(tx.amount)}
-                    </td>
-                    <td className="py-4 px-2">
+                    <td className="py-3 px-2">
                       <span
-                        className={`text-sm font-medium ${
+                        className={`text-sm font-medium px-2.5 py-1 rounded-full ${
                           tx.status === 'Approved'
-                            ? 'text-green-600'
-                            : 'text-amber-500'
+                            ? 'text-green-700 bg-green-50'
+                            : 'text-amber-700 bg-amber-50'
                         }`}
                       >
                         {tx.status}
                       </span>
                     </td>
-                    <td className="py-4 pl-2">
-                      <div className="flex items-center gap-3">
-                        <button className="text-teal-600 hover:underline text-sm font-medium">
+                    <td className="py-3 px-2">
+                      <div className="flex items-center justify-center gap-4">
+                        <button className="text-blue-600 hover:underline text-sm font-medium">
                           View
                         </button>
                         <a
                           href={getDownloadUrl(tx.id)}
-                          className="text-red-500 hover:underline text-sm font-medium"
+                          className="text-gray-600 underline text-sm font-medium"
                         >
                           Download
                         </a>

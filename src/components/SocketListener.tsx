@@ -11,7 +11,9 @@ import type { Transaction } from '@/types';
 
 export default function SocketListener() {
   const dispatch = useAppDispatch();
-  const { selectedCurrency } = useAppSelector((state) => state.receiver);
+  const { selectedCurrency, data: receiver } = useAppSelector(
+    (state) => state.receiver,
+  );
 
   useEffect(() => {
     const socket = getSocket();
@@ -24,14 +26,20 @@ export default function SocketListener() {
     );
 
     socket.on('transaction:new', (data: Transaction) => {
-      dispatch(addTransaction(data));
+      // Only add transaction if it matches the currently selected currency
+      const currencyObj = receiver?.currencies?.find(
+        (c) => c.code === selectedCurrency,
+      );
+      if (currencyObj && data.currency_id === currencyObj.id) {
+        dispatch(addTransaction(data));
+      }
     });
 
     return () => {
       socket.off('transaction:statusUpdated');
       socket.off('transaction:new');
     };
-  }, [dispatch, selectedCurrency]);
+  }, [dispatch, selectedCurrency, receiver]);
 
   return null;
 }

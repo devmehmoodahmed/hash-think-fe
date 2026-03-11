@@ -29,13 +29,15 @@ export default function CurrencySelector({
                 : 'border-gray-200 bg-white hover:border-gray-300'
             }`}
           >
-            <Image
-              src={currency.flag_url}
-              alt={currency.code}
-              width={32}
-              height={20}
-              className="rounded-sm"
-            />
+            <div className="w-8 h-8 rounded-full overflow-hidden">
+              <Image
+                src={currency.flag_url}
+                alt={currency.code}
+                width={32}
+                height={32}
+                className="w-full h-full object-cover"
+              />
+            </div>
             <span
               className={`text-sm font-bold ${isSelected ? 'text-teal-700' : 'text-gray-700'}`}
             >
