@@ -47,22 +47,22 @@ export default function ReceiverModal() {
 
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col">
+        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-6xl max-h-[95vh] flex flex-col">
           {/* Header */}
-          <div className="flex items-start justify-between px-16 pt-12 pb-4 shrink-0">
+          <div className="flex items-start justify-between md:px-16 px-8 md:pt-12 pt-8 pb-4 shrink-0">
             <div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center md:gap-3 gap-0 md:flex-row flex-col md:mb-0 mb-2">
                 <h2 className="text-xl font-bold text-gray-900">
                   {receiver.name}
                 </h2>
-                  <div className="text-[#776733] font-semibold text-sm font-medium cursor-pointer flex gap-1">
-                    <span className='underline'>Send Them Money</span> 
-       
-                      <svg className='inline' width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <div className="text-[#776733] font-semibold text-sm font-medium cursor-pointer flex gap-1">
+                  <span className='underline'>Send Them Money</span> 
+      
+                    <svg className='inline' width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M4 12H20M20 12L14 6M20 12L14 18" stroke="#776733" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
 </svg>
 
-                  </div>
+                </div>
               </div>
               <p className="text-gray-500 text-sm mt-1">{receiver.email}</p>
             </div>
@@ -104,20 +104,20 @@ export default function ReceiverModal() {
           </div>
 
           {/* Currencies */}
-          <div className="px-16 pb-6 shrink-0">
+          <div className="md:px-16 px-8 pb-6 shrink-0">
             <p className="text-sm text-gray-600 mb-3">Currencies they use:</p>
             <CurrencySelector currencies={receiver.currencies || []} />
           </div>
 
           {/* Transactions — this section scrolls */}
-          <div className="px-16 pb-4 min-h-0 flex-1 flex flex-col">
+          <div className="md:px-16 px-8 pb-4 min-h-0 flex-1 flex flex-col">
             <TransactionsTable receiverName={receiver.name} />
           </div>
 
           {/* Footer */}
-          <div className="px-16 pb-16 shrink-0">
+          <div className="md:px-16 px-8 md:pb-16 pb-8 shrink-0">
             <p className="text-sm text-gray-400  border-t border-gray-200 pt-2">
-              You&apos;ve created this customer on {createdDate}
+              You&apos;ve created this customer on <span className="inline-block">{createdDate}</span>
             </p>
           </div>
         </div>
