@@ -55,16 +55,21 @@ export default function ReceiverModal() {
                 <h2 className="text-xl font-bold text-gray-900">
                   {receiver.name}
                 </h2>
-                <span className="text-gray-600 text-sm font-medium cursor-pointer">
-                  <span className="underline">Send Them Money</span> →
-                </span>
+                  <div className="text-[#776733] font-semibold text-sm font-medium cursor-pointer flex gap-1">
+                    <span className='underline'>Send Them Money</span> 
+       
+                      <svg className='inline' width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 12H20M20 12L14 6M20 12L14 18" stroke="#776733" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+                  </div>
               </div>
               <p className="text-gray-500 text-sm mt-1">{receiver.email}</p>
             </div>
             <div className="flex items-center gap-2">
               <button className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 rounded-full border border-gray-200 transition-colors">
                 <svg
-                  className="w-5 h-5 text-gray-500"
+                  className="w-5 h-5 text-[#526c66]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -82,7 +87,7 @@ export default function ReceiverModal() {
                 className="w-10 h-10 flex items-center justify-center hover:bg-gray-100 rounded-full border border-gray-200 transition-colors"
               >
                 <svg
-                  className="w-5 h-5 text-gray-500"
+                  className="w-5 h-5 text-[#526c66]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -111,7 +116,7 @@ export default function ReceiverModal() {
 
           {/* Footer */}
           <div className="px-8 pb-8 shrink-0">
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-gray-400  border-t border-gray-200">
               You&apos;ve created this customer on {createdDate}
             </p>
           </div>

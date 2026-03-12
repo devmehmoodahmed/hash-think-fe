@@ -90,7 +90,7 @@ export default function TransactionsTable({
             className="w-9 h-9 flex items-center justify-center hover:bg-gray-100 rounded-full transition-colors"
           >
             <svg
-              className="w-5 h-5 text-gray-500"
+              className="w-5 h-5 text-[#526c66]"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -105,7 +105,7 @@ export default function TransactionsTable({
           </button>
           <button className="w-9 h-9 flex items-center justify-center hover:bg-gray-100 rounded-full border border-gray-200 transition-colors">
             <svg
-              className="w-4 h-4 text-gray-500"
+              className="w-4 h-4 text-[#526c66]"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -151,7 +151,7 @@ export default function TransactionsTable({
                 <th className="py-3 px-2 font-medium">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="before:content-[''] before:block before:h-3 after:content-[''] after:block after:h-3">
               {filtered.map((tx, index) => {
                 const { dateFormatted, timeFormatted } = formatDate(
                   tx.date_time,
@@ -160,7 +160,7 @@ export default function TransactionsTable({
                   <tr
                     key={tx.id}
                     className={`border-b border-gray-100 text-center ${
-                      index % 2 === 0 ? 'bg-gray-100' : 'bg-white'
+                      index % 2 === 0 ? 'bg-[#f4f4f4]' : 'bg-white'
                     }`}
                   >
                     <td className="py-3 px-2 text-gray-400">{index + 1}</td>
@@ -190,7 +190,7 @@ export default function TransactionsTable({
                         className={`text-sm font-medium px-2.5 py-1 rounded-full ${
                           tx.status === 'Approved'
                             ? 'text-green-700 bg-green-50'
-                            : 'text-amber-700 bg-amber-50'
+                            : 'text-[#fec927] bg-[#fbf2e2]'
                         }`}
                       >
                         {tx.status}
@@ -198,12 +198,12 @@ export default function TransactionsTable({
                     </td>
                     <td className="py-3 px-2">
                       <div className="flex items-center justify-center gap-4">
-                        <button className="text-blue-600 hover:underline text-sm font-medium">
+                        <button className="text-[#5dc0fd] hover:underline text-sm font-medium">
                           View
                         </button>
                         <a
                           href={getDownloadUrl(tx.id)}
-                          className="text-gray-600 underline text-sm font-medium"
+                          className="text-[#776733] underline text-sm font-medium"
                         >
                           Download
                         </a>
