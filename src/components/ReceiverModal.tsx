@@ -49,7 +49,7 @@ export default function ReceiverModal() {
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-2xl w-full max-w-5xl max-h-[90vh] flex flex-col">
           {/* Header */}
-          <div className="flex items-start justify-between px-8 pt-8 pb-4 shrink-0">
+          <div className="flex items-start justify-between px-16 pt-12 pb-4 shrink-0">
             <div>
               <div className="flex items-center gap-3">
                 <h2 className="text-xl font-bold text-gray-900">
@@ -104,19 +104,19 @@ export default function ReceiverModal() {
           </div>
 
           {/* Currencies */}
-          <div className="px-8 pb-6 shrink-0">
+          <div className="px-16 pb-6 shrink-0">
             <p className="text-sm text-gray-600 mb-3">Currencies they use:</p>
             <CurrencySelector currencies={receiver.currencies || []} />
           </div>
 
           {/* Transactions — this section scrolls */}
-          <div className="px-8 pb-4 min-h-0 flex-1 flex flex-col">
+          <div className="px-16 pb-4 min-h-0 flex-1 flex flex-col">
             <TransactionsTable receiverName={receiver.name} />
           </div>
 
           {/* Footer */}
-          <div className="px-8 pb-8 shrink-0">
-            <p className="text-sm text-gray-400  border-t border-gray-200">
+          <div className="px-16 pb-16 shrink-0">
+            <p className="text-sm text-gray-400  border-t border-gray-200 pt-2">
               You&apos;ve created this customer on {createdDate}
             </p>
           </div>

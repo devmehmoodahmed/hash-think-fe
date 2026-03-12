@@ -140,18 +140,18 @@ export default function TransactionsTable({
               <col className="w-[15%]" />
             </colgroup>
             <thead className="sticky top-0 bg-white">
-              <tr className="text-center text-gray-400 text-xs border-b border-gray-200">
-                <th className="py-3 px-2 font-medium">#</th>
-                <th className="py-3 px-2 font-medium">Reference number</th>
-                <th className="py-3 px-2 font-medium">To</th>
-                <th className="py-3 px-2 font-medium">Date &amp; Time</th>
-                <th className="py-3 px-2 font-medium">Paid with</th>
-                <th className="py-3 px-2 font-medium">Amount</th>
-                <th className="py-3 px-2 font-medium">Status</th>
-                <th className="py-3 px-2 font-medium">Actions</th>
+              <tr className="text-center text-gray-400 text-xs">
+                <th className="py-3 px-2 font-medium  border-b border-gray-200">#</th>
+                <th className="py-3 px-2 font-medium  border-b border-gray-200">Reference number</th>
+                <th className="py-3 px-2 font-medium  border-b border-gray-200">To</th>
+                <th className="py-3 px-2 font-medium  border-b border-gray-200">Date &amp; Time</th>
+                <th className="py-3 px-2 font-medium  border-b border-gray-200">Paid with</th>
+                <th className="py-3 px-2 font-medium  border-b border-gray-200">Amount</th>
+                <th className="py-3 px-2 font-medium  border-b border-gray-200">Status</th>
+                <th className="py-3 px-2 font-medium  border-b border-gray-200">Actions</th>
               </tr>
             </thead>
-            <tbody className="before:content-[''] before:block before:h-3 after:content-[''] after:block after:h-3">
+            <tbody className="before:content-[''] before:block before:h-4 after:content-[''] after:block after:h-4">
               {filtered.map((tx, index) => {
                 const { dateFormatted, timeFormatted } = formatDate(
                   tx.date_time,
