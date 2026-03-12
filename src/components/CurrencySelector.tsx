@@ -5,6 +5,12 @@ import { setSelectedCurrency } from '@/store/receiverSlice';
 import type { Currency } from '@/types';
 import Image from 'next/image';
 
+const FLAG_MAP: Record<string, string> = {
+  USD: '/usd.svg',
+  IRR: '/irr.svg',
+  INR: '/inr.png',
+};
+
 interface CurrencySelectorProps {
   currencies: Currency[];
 }
@@ -16,14 +22,14 @@ export default function CurrencySelector({
   const { selectedCurrency } = useAppSelector((state) => state.receiver);
 
   return (
-    <div className="flex gap-3 flex-wrap">
+    <div className="flex gap-3">
       {currencies.map((currency) => {
         const isSelected = currency.code === selectedCurrency;
         return (
           <button
             key={currency.id}
             onClick={() => dispatch(setSelectedCurrency(currency.code))}
-            className={`flex flex-col items-center gap-1.5 px-6 py-3 rounded-lg border-2 transition-all cursor-pointer ${
+            className={`flex flex-col items-center gap-1.5 md:px-6 px-3 md:py-3 py-2 rounded-lg border-2 transition-all cursor-pointer ${
               isSelected
                 ? 'border-teal-500 bg-teal-50'
                 : 'border-gray-200 bg-white hover:border-gray-300'
@@ -31,7 +37,7 @@ export default function CurrencySelector({
           >
             <div className="w-8 h-8 rounded-full overflow-hidden">
               <Image
-                src={currency.flag_url}
+                src={FLAG_MAP[currency.code] || currency.flag_url}
                 alt={currency.code}
                 width={32}
                 height={32}

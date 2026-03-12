@@ -3,11 +3,12 @@
 import { useState, useMemo } from 'react';
 import { useAppSelector } from '@/store/hooks';
 import { getDownloadUrl } from '@/lib/api';
+import Image from 'next/image';
 
-const FLAG_URLS: Record<string, string> = {
-  USD: 'https://flagcdn.com/w40/us.png',
-  IRR: 'https://flagcdn.com/w40/ir.png',
-  INR: 'https://flagcdn.com/w40/in.png',
+const FLAG_MAP: Record<string, string> = {
+  USD: '/usd.svg',
+  IRR: '/irr.svg',
+  INR: '/inr.png',
 };
 
 interface TransactionsTableProps {
@@ -67,7 +68,7 @@ export default function TransactionsTable({
   return (
     <div className="flex flex-col min-h-0">
       {/* Section Header */}
-      <div className="flex items-center justify-between mb-6 shrink-0">
+      <div className="flex items-center justify-between mb-6 shrink-0 flex-col md:flex-row gap-2">
         <h3 className="text-lg font-bold text-gray-900">
           Transactions History With {receiverName.split(' ')[0]}
         </h3>
@@ -127,28 +128,28 @@ export default function TransactionsTable({
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600" />
         </div>
       ) : (
-        <div className="overflow-y-auto overflow-x-auto min-h-0 max-h-[220px]">
+        <div className="overflow-y-auto overflow-x-auto min-h-0 max-h-[230px]">
           <table className="w-full text-sm table-fixed">
             <colgroup>
-              <col className="w-[3%]" />
-              <col className="w-[15%]" />
-              <col className="w-[12%]" />
-              <col className="w-[15%]" />
-              <col className="w-[17%]" />
-              <col className="w-[13%]" />
-              <col className="w-[10%]" />
-              <col className="w-[15%]" />
+              <col className="md:min-w-[3%] w-[40px]" />
+              <col className="md:min-w-[15%] w-[120px]" />
+              <col className="md:min-w-[12%] w-[120px]" />
+              <col className="md:min-w-[15%] w-[150px]" />
+              <col className="md:min-w-[17%] w-[170px]" />
+              <col className="md:min-w-[13%] w-[130px]" />
+              <col className="md:min-w-[10%] w-[100px]" />
+              <col className="md:min-w-[15%] w-[150px]" />
             </colgroup>
             <thead className="sticky top-0 bg-white">
               <tr className="text-center text-gray-400 text-xs">
-                <th className="py-3 px-2 font-medium  border-b border-gray-200">#</th>
-                <th className="py-3 px-2 font-medium  border-b border-gray-200">Reference number</th>
-                <th className="py-3 px-2 font-medium  border-b border-gray-200">To</th>
-                <th className="py-3 px-2 font-medium  border-b border-gray-200">Date &amp; Time</th>
-                <th className="py-3 px-2 font-medium  border-b border-gray-200">Paid with</th>
-                <th className="py-3 px-2 font-medium  border-b border-gray-200">Amount</th>
-                <th className="py-3 px-2 font-medium  border-b border-gray-200">Status</th>
-                <th className="py-3 px-2 font-medium  border-b border-gray-200">Actions</th>
+                <th className="py-3 px-2 font-medium  border-b-2 border-gray-200">#</th>
+                <th className="py-3 px-2 font-medium  border-b-2 border-gray-200 text-left">Reference<br/> number</th>
+                <th className="py-3 px-2 font-medium  border-b-2 border-gray-200">To</th>
+                <th className="py-3 px-2 font-medium  border-b-2 border-gray-200">Date &amp; Time</th>
+                <th className="py-3 px-2 font-medium  border-b-2 border-gray-200">Paid with</th>
+                <th className="py-3 px-2 font-medium  border-b-2 border-gray-200">Amount</th>
+                <th className="py-3 px-2 font-medium  border-b-2 border-gray-200">Status</th>
+                <th className="py-3 px-2 font-medium  border-b-2 border-gray-200">Actions</th>
               </tr>
             </thead>
             <tbody className="before:content-[''] before:block before:h-4 after:content-[''] after:block after:h-4">
@@ -163,22 +164,24 @@ export default function TransactionsTable({
                       index % 2 === 0 ? 'bg-[#f4f4f4]' : 'bg-white'
                     }`}
                   >
-                    <td className="py-3 px-2 text-gray-400">{index + 1}</td>
-                    <td className="py-3 px-2 text-gray-700">
+                    <td className="p-2 text-gray-400">{index + 1}</td>
+                    <td className="p-2 text-gray-700">
                       {tx.reference_number}
                     </td>
-                    <td className="py-3 px-2 text-gray-700">{tx.to}</td>
-                    <td className="py-3 px-2 text-gray-700">
-                      <div>{dateFormatted}</div>
+                    <td className="p-2 text-gray-700">{tx.to}</td>
+                    <td className="p-2 text-gray-700">
+                      <div className='text-nowrap'>{dateFormatted}</div>
                       <div>{timeFormatted}</div>
                     </td>
-                    <td className="py-3 px-2 text-gray-700">{tx.paid_with}</td>
-                    <td className="py-3 px-2 font-medium text-gray-900">
+                    <td className="p-2 text-gray-700">{tx.paid_with}</td>
+                    <td className="p-2 font-medium text-gray-900">
                       <div className="flex items-center justify-center gap-1.5">
-                        {FLAG_URLS[selectedCurrency] && (
-                          <img
-                            src={FLAG_URLS[selectedCurrency]}
+                        {FLAG_MAP[selectedCurrency] && (
+                          <Image
+                            src={FLAG_MAP[selectedCurrency]}
                             alt={selectedCurrency}
+                            width={20}
+                            height={20}
                             className="w-5 h-5 object-cover rounded-full shrink-0"
                           />
                         )}
